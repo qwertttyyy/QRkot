@@ -1,10 +1,5 @@
 from datetime import datetime
 
-from sqlalchemy.ext.asyncio import AsyncSession
-
-from app.crud.base import CRUDBase
-from app.models import CharityProject, Donation
-
 
 def investing(entity, unclosed_objects):
     if entity.invested_amount < entity.full_amount:
