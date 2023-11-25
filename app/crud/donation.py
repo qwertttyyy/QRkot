@@ -4,7 +4,7 @@ from sqlalchemy import select
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from app.crud.base import CRUDBase
-from app.models import Donation, User
+from app.models import Donation, User, CharityProject
 from app.services.investing import investing
 
 
@@ -21,7 +21,14 @@ class CRUDDonation(CRUDBase):
         self, donation, session: AsyncSession, user: Optional[User] = None
     ):
         new_donation = await self.create(donation, session, user)
-        await investing(new_donation, session)
+
+        unclosed_charity_projects = await CRUDBase(
+            CharityProject
+        ).get_unclosed_objects(session)
+        donation = investing(new_donation, unclosed_charity_projects)
+        session.add(donation)
+        await session.commit()
+        await session.refresh(donation)
         return new_donation
 
 

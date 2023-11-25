@@ -3,12 +3,17 @@ from datetime import datetime
 from aiogoogle import Aiogoogle
 
 from app.core.config import settings
-
-FORMAT = '%Y/%m/%d %H:%M:%S'
+from app.core.constatnts import (
+    SHEET_TITLE_TIME_FORMAT,
+    SHEET_TITLE,
+    SHEET_ID,
+    SHEET_ROW_COUNT,
+    SHEET_COLUMN_COUNT,
+)
 
 
 async def spreadsheets_create(wrapper_services: Aiogoogle) -> str:
-    now_date_time = datetime.now().strftime(FORMAT)
+    now_date_time = datetime.now().strftime(SHEET_TITLE_TIME_FORMAT)
     service = await wrapper_services.discover('sheets', 'v4')
     spreadsheet_body = {
         'properties': {
@@ -19,9 +24,12 @@ async def spreadsheets_create(wrapper_services: Aiogoogle) -> str:
             {
                 'properties': {
                     'sheetType': 'GRID',
-                    'sheetId': 0,
-                    'title': 'Лист1',
-                    'gridProperties': {'rowCount': 100, 'columnCount': 11},
+                    'sheetId': SHEET_ID,
+                    'title': SHEET_TITLE,
+                    'gridProperties': {
+                        'rowCount': SHEET_ROW_COUNT,
+                        'columnCount': SHEET_COLUMN_COUNT,
+                    },
                 }
             }
         ],
@@ -52,7 +60,7 @@ async def set_user_permissions(
 async def spreadsheets_update_value(
     spreadsheetid: str, projects: list, wrapper_services: Aiogoogle
 ) -> None:
-    now_date_time = datetime.now().strftime(FORMAT)
+    now_date_time = datetime.now().strftime(SHEET_TITLE_TIME_FORMAT)
     service = await wrapper_services.discover('sheets', 'v4')
     table_values = [
         ['Отчёт от', now_date_time],

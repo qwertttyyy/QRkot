@@ -6,15 +6,9 @@ from app.crud.base import CRUDBase
 from app.models import CharityProject, Donation
 
 
-async def investing(entity, session: AsyncSession):
+def investing(entity, unclosed_objects):
     if entity.invested_amount < entity.full_amount:
         free_amount = entity.full_amount - entity.invested_amount
-
-        crud = (
-            Donation if isinstance(entity, CharityProject) else CharityProject
-        )
-
-        unclosed_objects = await CRUDBase(crud).get_unclosed_objects(session)
         for db_object in unclosed_objects:
             amount_to_invest = min(
                 free_amount,
@@ -31,6 +25,4 @@ async def investing(entity, session: AsyncSession):
             entity.fully_invested = True
             entity.close_date = datetime.now()
 
-        session.add(entity)
-        await session.commit()
-        await session.refresh(entity)
+        return entity
