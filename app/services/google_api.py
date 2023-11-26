@@ -3,7 +3,7 @@ from datetime import datetime
 from aiogoogle import Aiogoogle
 
 from app.core.config import settings
-from app.core.constatnts import (
+from app.core.constants import (
     SHEET_TITLE_TIME_FORMAT,
     SHEET_TITLE,
     SHEET_ID,

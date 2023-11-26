@@ -3,7 +3,7 @@ from typing import Optional
 
 from pydantic import BaseModel, Field, PositiveInt, Extra
 
-from app.core.constatnts import (
+from app.core.constants import (
     CHARITY_PROJECT_NAME_MAX_LENGTH,
     FIELD_MIN_LENGTH,
 )

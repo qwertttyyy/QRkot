@@ -9,7 +9,7 @@ from app.schemas.charity_project import (
     CharityProjectDB,
     CharityProjectUpdate,
 )
-from app.services.charity_project import charity_project_service
+from app.services.charity_project import CharityProjectService
 
 router = APIRouter()
 
@@ -36,8 +36,9 @@ async def create_charity_project(
     charity_project: CharityProjectCreate,
     session: AsyncSession = Depends(get_async_session),
 ):
+    charity_project_service = CharityProjectService(session)
     new_charity_project = await charity_project_service.charity_project_create(
-        charity_project, session
+        charity_project
     )
     return new_charity_project
 
@@ -50,8 +51,9 @@ async def create_charity_project(
 async def delete_charity_project(
     charity_project_id: int, session: AsyncSession = Depends(get_async_session)
 ):
+    charity_project_service = CharityProjectService(session)
     charity_project = await charity_project_service.charity_project_remove(
-        charity_project_id, session
+        charity_project_id
     )
     return charity_project
 
@@ -66,7 +68,8 @@ async def update_charity_project(
     obj_in: CharityProjectUpdate,
     session: AsyncSession = Depends(get_async_session),
 ):
+    charity_project_service = CharityProjectService(session)
     charity_project = await charity_project_service.charity_project_update(
-        charity_project_id, session, obj_in
+        charity_project_id, obj_in
     )
     return charity_project

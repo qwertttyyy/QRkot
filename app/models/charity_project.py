@@ -1,6 +1,6 @@
 from sqlalchemy import String, Column, Text
 
-from app.core.constatnts import CHARITY_PROJECT_NAME_MAX_LENGTH
+from app.core.constants import CHARITY_PROJECT_NAME_MAX_LENGTH
 from app.core.db import Base
 from app.models.base import CharityProjectDonationBase
 
